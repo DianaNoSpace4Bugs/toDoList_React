@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 uuidv4();
-import { useState , useRef} from 'react'
+import { useEffect, useState , useRef} from 'react'
 import './App.css'
 import List from './components/List';
 
@@ -18,6 +18,7 @@ function App() {
 ]
   const [item, setItem] = useState(null);
   const [list, setList] = useState(initialItems);
+  const [input, setInput] = useState('');
   const ref = useRef(null)
 
   
@@ -36,11 +37,6 @@ function App() {
 
     
   }
-  // if (ref = '') {
-  //   const botonADD = document.getElementById("botonADD");
-  //   botonADD.style.visibility = "hidden";
-  // }
-
 
   const deleteItem = (i) => {
     const ramaningItems = list.filter((item, index) => i !== index);
@@ -56,14 +52,20 @@ function App() {
     setList([]); //vaciar la lista de deseos
   }
 
+  const handleChange = (event) => {
+    const inputValue = event.target.value
+    setInput(inputValue);
+  }
+
+
   return (
     <>
     <h1>My to do list for today</h1>
       <form id="formulario" onSubmit={createToDoItem}>
         <p>Insert tasks here</p>
-        <input id="inputForm" ref={ref} type="text" name="inputText"/>
+        <input id="inputForm" ref={ref} type="text" name="inputText" onChange={handleChange}/>
         <br />
-        <button type="submit" id="botonADD">ADD</button>
+       {input.length > 0 ? <button type="submit" id="botonADD">ADD</button> : ''} 
       </form>
       <br />
 
